@@ -1,0 +1,45 @@
+<%-include('./partials/boilerplate') %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h1>To Do's :-</h1>
+      <% for(d of data){ %>
+      <ul>
+        <% if(!d.isCompleted) {%>
+        <li>
+          <%=d.todo%>
+          <ul>
+            <li><%=d.description %></li>
+          </ul>
+        </li>
+        <form action="/remove/<%=d._id%>?_method=delete" method="post">
+          <button>remove</button>
+        </form>
+        <a href="/edit/<%=d._id%>">Edit</a>
+        <% } %>
+      </ul>
+      <% } %>
+    </div>
+
+    <div class="col">
+      <h2>Make New Todo</h2>
+      <form action="/todos" method="post">
+        <div>
+          <label for="todo">Todo</label>
+          <input type="text" id="todo" name="todo" />
+        </div>
+        <div>
+          <textarea
+            name="description"
+            id="description"
+            placeholder="elaborate todo"
+          ></textarea>
+        </div>
+
+        <button>Add</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%-include('./partials/footer') %>
