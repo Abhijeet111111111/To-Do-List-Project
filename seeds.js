@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Todo = require('./model/todo')
+const { Todo } = require('./model/todo')
+const { Account } = require('./model/todo')
 mongoose.connect('mongodb://127.0.0.1:27017/TODO');
 
 const t1 = new Todo({
@@ -18,4 +19,11 @@ const t3 = new Todo({
     isCompleted: false
 })
 
-Todo.insertMany([t1, t2, t3])
+
+Account.findOne({ username: 'aj' }).then((found) => {
+    found.todos = [t1,t2,t3];
+    console.log(found)
+    found.save();
+    
+})
+

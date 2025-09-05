@@ -1,11 +1,31 @@
 const mongoose = require('mongoose');
+const passportLocalMongoose = require('passport-local-mongoose');
+
 
 const todoSchema = mongoose.Schema({
-    todo: String,
-    description: String,
+    todo: { type: String, required: true },
+    description: { type: String, required: true },
     isCompleted: Boolean
 })
 
-const ToDo = new mongoose.model('Todo', todoSchema);
+const Todo = new mongoose.model('Todo', todoSchema);
 
-module.exports = ToDo;
+
+const AccountSchema = mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    todos: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Todo'
+    }]
+
+})
+
+AccountSchema.plugin(passportLocalMongoose);
+
+const Account = new mongoose.model('Account', AccountSchema);
+// console.dir(Account);
+
+
+
+module.exports.Todo = Todo;
+module.exports.Account = Account;

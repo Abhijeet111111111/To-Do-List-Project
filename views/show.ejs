@@ -1,43 +1,108 @@
 <%-include('./partials/boilerplate') %>
+<%-include('./partials/navbar') %>
+<% if(message.length){ %>
+<div  class="alert alert-danger alert-dismissible fade show"><%=message%>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+</div>
+<% } %>
+<% if(success.length){ %>
+<div  class="alert row alert-success alert-dismissible fade show"><%=success%>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+</div>
+<% } %>
+
+
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <h1>To Do's :-</h1>
-      <% for(d of data){ %>
-      <ul>
-        <% if(!d.isCompleted) {%>
-        <li>
-          <%=d.todo%>
-          <ul>
-            <li><%=d.description %></li>
-          </ul>
-        </li>
-        <form action="/remove/<%=d._id%>?_method=delete" method="post">
-          <button>remove</button>
-        </form>
-        <a href="/edit/<%=d._id%>">Edit</a>
+      
+      
+      
+      <% for(d of alldata){ %>
+        
+        
+           
+          <h2><%=d.username%>'s Tasks :-</h2>
+        <% for(td of d.todos) {%>
+        <% if(!td.isCompleted) {%>
+
+    <div class="card d-inline-block mb-2 me-2" style="width: 18rem;">
+    <div class="card-body">
+    <h5 class="card-title"><%=td.todo%></h5>
+    <p class="card-text"><%=td.description %></p>
+
+
+      <% if( currUser && currUser._id.equals(d._id)) {%>
+    <a href="/edit/<%=td._id%>" class="btn btn-primary d-inline-block">Edit</a>
+    <form action="/remove/<%=td._id%>?_method=delete" class="d-inline-block" method="post">
+        <button class="btn btn-primary">remove</button>
+    </form>
+    <% } %>
+    </div>
+  </div>
+  
+         
+       <% } %>
+        
         <% } %>
-      </ul>
+     
       <% } %>
     </div>
 
-    <div class="col">
+
+        <% if(Object.entries(data).length != 0) {%>
+    <div class="col card m-5 mt-0" style="height: 18rem;">
+      <div class="card-body">
       <h2>Make New Todo</h2>
-      <form action="/todos" method="post">
+      <form action="/edit/<%=data._id%>?_method=put" method="post" class="needs-validation" novalidate>
         <div>
-          <label for="todo">Todo</label>
-          <input type="text" id="todo" name="todo" />
+          <label for="todo" class="form-label">Todo</label>
+          <input type="text" id="todo" name="TODO[todo]" class="form-control mb-2" required autofocus value="<%=data.todo%>" />
         </div>
         <div>
           <textarea
-            name="description"
+            name="TODO[description]"
             id="description"
             placeholder="elaborate todo"
+            class="form-control mb-2"
+            required
+            
+          ><%=data.description %></textarea>
+        </div>
+          
+        <button class="btn btn-primary">Update</button>
+
+        
+        <% }else{ %>
+
+            
+
+          
+    <div class="col card m-5 mt-0" style="height: 50%;">
+
+      <div class="card-body">
+      <h2>Make New Todo</h2>
+      <form action="/todos" method="post" class="needs-validation" novalidate>
+        <div>
+          <label for="todo" class="form-label">Todo</label>
+          <input type="text" id="todo" name="TODO[todo]" class="form-control mb-2" autofocus required  />
+        </div>
+        <div>
+          <textarea
+            name="TODO[description]"
+            id="description"
+            placeholder="elaborate todo"
+            class="form-control mb-2"
+            required
           ></textarea>
         </div>
+          <button class="btn btn-primary">Add</button>
+          <% } %>
 
-        <button>Add</button>
       </form>
+      </div>
     </div>
   </div>
 </div>

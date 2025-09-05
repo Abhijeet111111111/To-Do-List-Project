@@ -1,0 +1,19 @@
+<%-include('./partials/boilerplate')%>
+<body>
+  <h1>Register ...</h1>
+  <% if(message.length) {%>
+  <div class="alert alert-danger alert-dismissible">
+    <%=message%>
+    <button type="button" class="btn-close "  data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <% } %>
+  
+  <form action="/register" method="post">
+    <input type="text" name="username" placeholder="username" />
+    <input type="password" name="password" id="" placeholder="password" />
+    <input type="email" name="email" id="" placeholder="email" />
+    <button>submit</button>
+  </form>
+
+  <%-include('./partials/footer')%>
+</body>

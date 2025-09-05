@@ -1,0 +1,17 @@
+<%-include('./partials/boilerplate')%>
+<body>
+  <h1>login</h1>
+  <%=message%>
+  <form action="/login" method="post">
+    <input type="text" name="username" id="username" placeholder="username" />
+    <input
+      type="password"
+      name="password"
+      id="password"
+      placeholder="password"
+    />
+    <button>submit</button>
+  </form>
+
+  <%-include('./partials/footer')%>
+</body>
